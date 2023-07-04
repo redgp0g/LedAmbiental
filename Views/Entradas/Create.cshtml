@@ -1,0 +1,50 @@
+﻿@model LedAmbiental.Models.Entrada
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Entrada</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NomeCaminhao" class="control-label"></label>
+                <select asp-for="NomeCaminhao">
+                    <option value="">Selecione o caminhão</option>
+                    <option value="Truck">Truck</option>
+                    <option value="Caçamba">Caçamba</option>
+                </select>
+                <span asp-validation-for="NomeCaminhao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Material</label>
+                <select>
+                    <option value="">Selecione o material</option>
+                    <option value="Madeira">Madeira</option>
+                    <option value="Areia">Areia</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Quantidade do Material</label>
+                <input type="number"class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Cadastrar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volta para Lista</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
