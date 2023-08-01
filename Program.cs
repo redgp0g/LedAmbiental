@@ -2,12 +2,14 @@ using CadastroFalhas.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+string connectionString = builder.Configuration.GetConnectionString("LedAmbientalConnectionString") ?? throw new InvalidOperationException("String de conexão 'LedAmbientalConnectionString' não encontrada");
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<Contexto>
-(options => options.UseSqlServer("Data Source=DESKTOP-KKBI7EQ\\\\SQLEXPRESS;Initial Catalog=Schwarz;Integrated Security=false;User ID=sa;Password=Lathixp1;Encrypt=False;TrustServerCertificate=False"));
+(options => options.UseSqlServer(connectionString));
 
 
 
