@@ -18,7 +18,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
         options.SlidingExpiration = true;
-        options.AccessDeniedPath = "/Forbidden/";
+        options.AccessDeniedPath = "/Account/AcessDenied";
+        options.LoginPath = "/Account/Login";
     });
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

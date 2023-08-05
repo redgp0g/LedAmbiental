@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CadastroFalhas.Models;
 using LedAmbiental.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LedAmbiental.Controllers
 {
+    [Authorize]
     public class MaterialsController : Controller
     {
         private readonly Contexto _context;

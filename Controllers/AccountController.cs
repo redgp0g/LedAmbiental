@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Plugins;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LedAmbiental.Controllers
 {
+    
     public class AccountController : Controller
     {
         private readonly ILogger _logger;
-
 
         public AccountController(ILogger<AccountController> logger)
         {
@@ -59,7 +59,6 @@ namespace LedAmbiental.Controllers
             return View(model);
         }
 
-
         private async Task<ApplicationUser?> AuthenticateUser(string login, string senha)
         {
             if (login == "maria.rodriguez@contoso.com" && senha == "senha")
@@ -74,16 +73,14 @@ namespace LedAmbiental.Controllers
             return null;
         }
 
-
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             _logger.LogInformation("Usuário {Name} saiu da conta ás {Time}.",
                 User.Identity.Name, DateTime.UtcNow);
 
-            #region snippet1
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            #endregion
 
             return RedirectToAction("Index", "Home");
         }
