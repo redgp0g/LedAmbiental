@@ -1,0 +1,19 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+
+@if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+{
+    <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+        <li class="nav-item">
+            <span class="nav-link text-dark">Bem-vindo, @HttpContextAccessor.HttpContext.User.Identity.Name!</span>
+        </li>
+        <li class="nav-item">
+            <button type="submit" class="nav-link text-dark">Sair</button>
+        </li>
+    </form>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Entrar</a>
+    </li>
+}
