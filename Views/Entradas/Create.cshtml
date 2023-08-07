@@ -1,13 +1,12 @@
 ﻿@model LedAmbiental.Models.Entrada
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Lançar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Lançar Entrada</h1>
 
-<h4>Entrada</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,34 +14,34 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="NomeCaminhao" class="control-label"></label>
-                <select asp-for="NomeCaminhao">
+                <select asp-for="NomeCaminhao" class="form-select">
                     <option value="">Selecione o caminhão</option>
                     <option value="Truck">Truck</option>
                     <option value="Caçamba">Caçamba</option>
                 </select>
                 <span asp-validation-for="NomeCaminhao" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label class="control-label">Material</label>
-                <select>
+            <div class="input-group my-4">
+                <select asp-for="NomeCaminhao" class="form-select">
                     <option value="">Selecione o material</option>
                     <option value="Madeira">Madeira</option>
-                    <option value="Areia">Areia</option>
+                    <option value="Asfalto">Asfalto</option>
                 </select>
+                <input asp-for="Materials" type="number" class="form-control" required/>
             </div>
             <div class="form-group">
-                <label class="control-label">Quantidade do Material</label>
-                <input type="number"class="form-control" />
+                <button type="button" class="">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="3rem" height="3rem">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                </button>
+                
             </div>
-            <div class="form-group">
+            <div class="form-group mt-3">
                 <input type="submit" value="Cadastrar" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Volta para Lista</a>
 </div>
 
 @section Scripts {

@@ -7,12 +7,13 @@ namespace LedAmbiental.Models
     {
         [Key]
         public int IDEntrada { get; set; }
-        [Required]
-        [Display(Name = "Nome do Caminhão")]
+        [Required(ErrorMessage = "O Caminhão é obrigatório")]
+        [Display(Name = "Caminhão")]
         public string NomeCaminhao { get; set; }
-        [Required]
+
         public DateTime Data { get; set; } = DateTime.Now;
 
+        public virtual IEnumerable<Material>? Materials { get; set; }
 
         private readonly Contexto _context;
 

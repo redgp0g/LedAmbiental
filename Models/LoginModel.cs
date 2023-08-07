@@ -6,10 +6,10 @@ namespace LedAmbiental.Models
 {
     public class LoginModel
     {
-        [Required]
+        [Required(ErrorMessage = "O Login é obrigatório")]
         public string Login { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "A Senha é obrigatória")]
         [DataType(DataType.Password)]
         public string Senha{ get; set; }
     }
