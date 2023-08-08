@@ -9,7 +9,7 @@
         <a class="nav-link text-dark" asp-controller="Entradas" asp-action="Index">Entradas Lançadas</a>
     </li>
     <li>
-        <span class="nav-link text-dark">Bem-vindo, @HttpContextAccessor.HttpContext.User.Identity.Name!</span>
+        <span class="nav-link text-dark">Bem-vindo, @HttpContextAccessor.HttpContext.User.FindFirst("FullName").Value!</span>
     </li>
     <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
         <li>

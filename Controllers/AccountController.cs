@@ -61,12 +61,12 @@ namespace LedAmbiental.Controllers
 
         private async Task<ApplicationUser?> AuthenticateUser(string login, string senha)
         {
-            if (login == "maria.rodriguez@contoso.com" && senha == "senha")
+            if (login == "denisadmin" && senha == "senha")
             {
                 return new ApplicationUser
                 {
-                    Login = "maria.rodriguez@contoso.com",
-                    Nome = "Maria Rodriguez"
+                    Login = "denisadmin",
+                    Nome = "Denis"
                 };
             }
 
