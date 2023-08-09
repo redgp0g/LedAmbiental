@@ -1,5 +1,6 @@
 using CadastroFalhas.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LedAmbiental.Models
 {
@@ -7,6 +8,9 @@ namespace LedAmbiental.Models
     {
         [Key]
         public int IDMaterial { get; set; }
+        [ForeignKey("Entrada")]
+        public int IDEntrada { get; set; }
+        public virtual Entrada Entrada { get; set; }
         public string Nome { get; set; }
         public decimal Quantidade { get; set; }
 

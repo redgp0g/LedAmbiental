@@ -22,19 +22,24 @@
                 <span asp-validation-for="NomeCaminhao" class="text-danger"></span>
             </div>
             <div class="material-container">
-            <div class="input-group my-4 material">
-                <select asp-for="NomeCaminhao" class="form-select">
-                    <option value="">Selecione o material</option>
-                    <option value="Madeira">Madeira</option>
-                    <option value="Asfalto">Asfalto</option>
-                </select>
-                <input asp-for="Materials" type="number" class="form-control" required />
-                <button type="button" class="remover-material">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="bg-red-hover" style="width:2rem">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                    </svg>
-                </button>
-            </div>
+                <div class="input-group my-4 material">
+                    <select name="materiais" class="form-select">
+                        <option value="">Selecione o material</option>
+                        <option value="Madeira">Madeira</option>
+                        <option value="Asfalto">Asfalto</option>
+                        <option value="Resíduos de Cimento">Resíduos de Cimento</option>
+                        <option value="Ladrilhos, telhas e materiais cerâmicos">Ladrilhos, telhas e materiais cerâmicos</option>
+                        <option value="Vidro">Vidro</option>
+                        <option value="Plástico">Plástico</option>
+                        <option value="Mistura de sucatas">Mistura de sucatas</option>
+                    </select>
+                    <input name="quantidades" type="number" class="form-control" required />
+                    <button type="button" class="remover-material">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="bg-red-hover" style="width:2rem">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                        </svg>
+                    </button>
+                </div>
             </div>
             <div class="form-group">
                 <button type="button" id="adicionar-material" class="w-25">
@@ -45,7 +50,7 @@
 
             </div>
             <div class="form-group mt-3">
-                <input type="button" value="Cadastrar" class="btn btn-primary" />
+                <input type="submit" value="Cadastrar" class="btn btn-primary" />
             </div>
         </form>
     </div>

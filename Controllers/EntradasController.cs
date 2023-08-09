@@ -52,16 +52,45 @@ namespace LedAmbiental.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Entrada entrada)
+        public async Task<IActionResult> Create(Entrada entrada, List<string> materiais, List<decimal> quantidades)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(entrada);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                using var transaction = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    _context.Entrada.Add(entrada);
+                    await _context.SaveChangesAsync();
+
+                    for (int i = 0; i < materiais.Count; i++)
+                    {
+                        var material = new Material
+                        {
+                            Nome = materiais[i],
+                            Quantidade = quantidades[i],
+                            IDEntrada = entrada.IDEntrada
+                        };
+
+                        _context.Material.Add(material);
+                    }
+
+                    await _context.SaveChangesAsync();
+
+                    transaction.Commit();
+
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+
+                    return View("Error");
+                }
             }
+
             return View(entrada);
         }
+
 
         public async Task<IActionResult> Edit(int? id)
         {
