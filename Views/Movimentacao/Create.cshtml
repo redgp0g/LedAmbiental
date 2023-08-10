@@ -1,4 +1,5 @@
-﻿@model LedAmbiental.Models.Entrada
+﻿@model LedAmbiental.Models.Movimentacao
+
 
 @{
     ViewData["Title"] = "Lançar";
@@ -13,13 +14,31 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NomeCaminhao" class="control-label"></label>
-                <select asp-for="NomeCaminhao" class="form-select">
+                <label asp-for="Caminhao" class="control-label"></label>
+                <select asp-for="Caminhao" class="form-select">
                     <option value="">Selecione o caminhão</option>
                     <option value="Truck">Truck</option>
                     <option value="Caçamba">Caçamba</option>
                 </select>
-                <span asp-validation-for="NomeCaminhao" class="text-danger"></span>
+                <span asp-validation-for="Caminhao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tipo" class="control-label"></label>
+                <select asp-for="Tipo" class="form-select">
+                    <option value="">Selecione o tipo</option>
+                    <option value="Entrada">Entrada</option>
+                    <option value="Saída">Saída</option>
+                </select>
+                <span asp-validation-for="Tipo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Local" class="control-label"></label>
+                <select asp-for="Local" class="form-select">
+                    <option value="">Selecione o local</option>
+                    <option value="Usina">Usina</option>
+                    <option value="Aterro">Aterro</option>
+                </select>
+                <span asp-validation-for="Local" class="text-danger"></span>
             </div>
             <div class="material-container">
                 <div class="input-group my-4 material">

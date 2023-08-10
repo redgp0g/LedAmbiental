@@ -1,8 +1,7 @@
-using LedAmbiental.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
-namespace CadastroFalhas.Models
+namespace LedAmbiental.Models
 {
     public class Contexto : DbContext
     {
@@ -10,7 +9,6 @@ namespace CadastroFalhas.Models
         public Contexto(DbContextOptions<Contexto> options) : base(options)
         {
         }
-        public DbSet<Entrada> Entrada{ get; set; }
-        public DbSet<Material> Material { get; set; }
+        public DbSet<Movimentacao> Movimentacao { get; set; }
     }
 }

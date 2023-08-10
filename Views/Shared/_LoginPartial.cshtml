@@ -3,10 +3,10 @@
 @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
 {
     <li>
-        <a class="nav-link text-dark" asp-controller="Entradas" asp-action="Create">Lançar Entrada</a>
+        <a class="nav-link text-dark" asp-controller="Movimentacao" asp-action="Create">Lançar Movimentação</a>
     </li>
-    <li class="d-none">
-        <a class="nav-link text-dark" asp-controller="Entradas" asp-action="Index">Entradas Lançadas</a>
+    <li>
+        <a class="nav-link text-dark" asp-controller="Movimentacao" asp-action="Index">Movimentação</a>
     </li>
     <li>
         <span class="nav-link text-dark">Bem-vindo, @HttpContextAccessor.HttpContext.User.FindFirst("FullName").Value!</span>

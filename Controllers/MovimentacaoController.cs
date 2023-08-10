@@ -5,44 +5,41 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CadastroFalhas.Models;
 using LedAmbiental.Models;
-using Microsoft.AspNetCore.Authorization;
 
 namespace LedAmbiental.Controllers
 {
-    [Authorize]
-    public class EntradasController : Controller
+    public class MovimentacaoController : Controller
     {
         private readonly Contexto _context;
 
-        public EntradasController(Contexto context)
+        public MovimentacaoController(Contexto context)
         {
             _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
-              return _context.Entrada != null ? 
-                          View(await _context.Entrada.ToListAsync()) :
-                          Problem("Entity set 'Contexto.Entrada'  is null.");
+              return _context.Movimentacao != null ? 
+                          View(await _context.Movimentacao.ToListAsync()) :
+                          Problem("Entity set 'Contexto.Movimentacao'  is null.");
         }
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Entrada == null)
+            if (id == null || _context.Movimentacao == null)
             {
                 return NotFound();
             }
 
-            var entrada = await _context.Entrada
-                .FirstOrDefaultAsync(m => m.IDEntrada == id);
-            if (entrada == null)
+            var movimentacao = await _context.Movimentacao
+                .FirstOrDefaultAsync(m => m.IDMovimentacao == id);
+            if (movimentacao == null)
             {
                 return NotFound();
             }
 
-            return View(entrada);
+            return View(movimentacao);
         }
 
         public IActionResult Create()
@@ -52,26 +49,23 @@ namespace LedAmbiental.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Entrada entrada, List<string> materiais, List<decimal> quantidades)
+        public async Task<IActionResult> Create(Movimentacao movimentacao, List<string> materiais, List<decimal> quantidades)
         {
-            if (ModelState.IsValid)
-            {
                 using var transaction = await _context.Database.BeginTransactionAsync();
                 try
                 {
-                    _context.Entrada.Add(entrada);
-                    await _context.SaveChangesAsync();
-
                     for (int i = 0; i < materiais.Count; i++)
                     {
-                        var material = new Material
+                        var material = new Movimentacao
                         {
-                            Nome = materiais[i],
+                            Caminhao = movimentacao.Caminhao,
+                            Local = movimentacao.Local,
+                            Tipo = movimentacao.Tipo,
+                            Material = materiais[i],
                             Quantidade = quantidades[i],
-                            IDEntrada = entrada.IDEntrada
                         };
 
-                        _context.Material.Add(material);
+                        _context.Movimentacao.Add(material);
                     }
 
                     await _context.SaveChangesAsync();
@@ -84,34 +78,30 @@ namespace LedAmbiental.Controllers
                 {
                     transaction.Rollback();
 
-                    return View("Error");
+                    return View(movimentacao);
                 }
-            }
-
-            return View(entrada);
         }
-
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Entrada == null)
+            if (id == null || _context.Movimentacao == null)
             {
                 return NotFound();
             }
 
-            var entrada = await _context.Entrada.FindAsync(id);
-            if (entrada == null)
+            var movimentacao = await _context.Movimentacao.FindAsync(id);
+            if (movimentacao == null)
             {
                 return NotFound();
             }
-            return View(entrada);
+            return View(movimentacao);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Entrada entrada)
+        public async Task<IActionResult> Edit(int id,Movimentacao movimentacao)
         {
-            if (id != entrada.IDEntrada)
+            if (id != movimentacao.IDMovimentacao)
             {
                 return NotFound();
             }
@@ -120,12 +110,12 @@ namespace LedAmbiental.Controllers
             {
                 try
                 {
-                    _context.Update(entrada);
+                    _context.Update(movimentacao);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EntradaExists(entrada.IDEntrada))
+                    if (!MovimentacaoExists(movimentacao.IDMovimentacao))
                     {
                         return NotFound();
                     }
@@ -136,47 +126,47 @@ namespace LedAmbiental.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(entrada);
+            return View(movimentacao);
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Entrada == null)
+            if (id == null || _context.Movimentacao == null)
             {
                 return NotFound();
             }
 
-            var entrada = await _context.Entrada
-                .FirstOrDefaultAsync(m => m.IDEntrada == id);
-            if (entrada == null)
+            var movimentacao = await _context.Movimentacao
+                .FirstOrDefaultAsync(m => m.IDMovimentacao == id);
+            if (movimentacao == null)
             {
                 return NotFound();
             }
 
-            return View(entrada);
+            return View(movimentacao);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Entrada == null)
+            if (_context.Movimentacao == null)
             {
-                return Problem("Entity set 'Contexto.Entrada'  is null.");
+                return Problem("Entity set 'Contexto.Movimentacao'  is null.");
             }
-            var entrada = await _context.Entrada.FindAsync(id);
-            if (entrada != null)
+            var movimentacao = await _context.Movimentacao.FindAsync(id);
+            if (movimentacao != null)
             {
-                _context.Entrada.Remove(entrada);
+                _context.Movimentacao.Remove(movimentacao);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EntradaExists(int id)
+        private bool MovimentacaoExists(int id)
         {
-          return (_context.Entrada?.Any(e => e.IDEntrada == id)).GetValueOrDefault();
+          return (_context.Movimentacao?.Any(e => e.IDMovimentacao == id)).GetValueOrDefault();
         }
     }
 }
