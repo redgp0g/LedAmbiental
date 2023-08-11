@@ -67,14 +67,14 @@ namespace LedAmbiental.Controllers
                 }
         }
 
-        public async Task<IActionResult> Edit(int? IDMovimentacao)
+        public async Task<IActionResult> Edit(int? id)
         {
-            if (IDMovimentacao == null || _context.Movimentacao == null)
+            if (id == null || _context.Movimentacao == null)
             {
                 return NotFound();
             }
 
-            var movimentacao = await _context.Movimentacao.FindAsync(IDMovimentacao);
+            var movimentacao = await _context.Movimentacao.FindAsync(id);
             if (movimentacao == null)
             {
                 return NotFound();
@@ -114,15 +114,15 @@ namespace LedAmbiental.Controllers
             return View(movimentacao);
         }
 
-        public async Task<IActionResult> Delete(int? IDMovimentacao)
+        public async Task<IActionResult> Delete(int? id)
         {
-            if (IDMovimentacao == null || _context.Movimentacao == null)
+            if (id == null || _context.Movimentacao == null)
             {
                 return NotFound();
             }
 
             var movimentacao = await _context.Movimentacao
-                .FirstOrDefaultAsync(m => m.IDMovimentacao == IDMovimentacao);
+                .FirstOrDefaultAsync(m => m.IDMovimentacao == id);
             if (movimentacao == null)
             {
                 return NotFound();
@@ -149,9 +149,9 @@ namespace LedAmbiental.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MovimentacaoExists(int IDMovimentacao)
+        private bool MovimentacaoExists(int id)
         {
-          return (_context.Movimentacao?.Any(e => e.IDMovimentacao == IDMovimentacao)).GetValueOrDefault();
+          return (_context.Movimentacao?.Any(e => e.IDMovimentacao == id)).GetValueOrDefault();
         }
     }
 }
