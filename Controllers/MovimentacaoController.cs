@@ -26,23 +26,6 @@ namespace LedAmbiental.Controllers
                           Problem("Entity set 'Contexto.Movimentacao'  is null.");
         }
 
-        public async Task<IActionResult> Details(int? IDMovimentacao)
-        {
-            if (IDMovimentacao == null || _context.Movimentacao == null)
-            {
-                return NotFound();
-            }
-
-            var movimentacao = await _context.Movimentacao
-                .FirstOrDefaultAsync(m => m.IDMovimentacao == IDMovimentacao);
-            if (movimentacao == null)
-            {
-                return NotFound();
-            }
-
-            return View(movimentacao);
-        }
-
         public IActionResult Create()
         {
             return View();
