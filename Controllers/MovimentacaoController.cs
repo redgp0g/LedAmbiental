@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LedAmbiental.Models;
+using System.Globalization;
 
 namespace LedAmbiental.Controllers
 {
@@ -49,7 +50,7 @@ namespace LedAmbiental.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Movimentacao movimentacao, List<string> materiais, List<decimal> quantidades)
+        public async Task<IActionResult> Create(Movimentacao movimentacao, List<string> materiais, List<string> quantidades)
         {
                 using var transaction = await _context.Database.BeginTransactionAsync();
                 try
@@ -62,7 +63,8 @@ namespace LedAmbiental.Controllers
                             Local = movimentacao.Local,
                             Tipo = movimentacao.Tipo,
                             Material = materiais[i],
-                            Quantidade = quantidades[i],
+                            Quantidade = decimal.Parse(quantidades[i], CultureInfo.InvariantCulture),
+
                         };
 
                         _context.Movimentacao.Add(material);
@@ -148,13 +150,13 @@ namespace LedAmbiental.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int IDMovimentacao)
         {
             if (_context.Movimentacao == null)
             {
                 return Problem("Entity set 'Contexto.Movimentacao'  is null.");
             }
-            var movimentacao = await _context.Movimentacao.FindAsync(id);
+            var movimentacao = await _context.Movimentacao.FindAsync(IDMovimentacao);
             if (movimentacao != null)
             {
                 _context.Movimentacao.Remove(movimentacao);
