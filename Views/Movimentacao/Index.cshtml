@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<LedAmbiental.Models.Movimentacao>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tabela";
 }
 
-<h1>Index</h1>
+<h1>Tabela de Movimentações</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Lançar Movimentação</a>
 </p>
 <table class="table">
     <thead>
@@ -56,9 +56,8 @@
                     @Html.DisplayFor(modelItem => item.Tipo)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.IDMovimentacao">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.IDMovimentacao">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.IDMovimentacao">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.IDMovimentacao">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IDMovimentacao">Deletar</a>
                 </td>
             </tr>
         }

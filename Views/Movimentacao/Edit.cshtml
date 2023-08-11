@@ -1,12 +1,10 @@
 ﻿@model LedAmbiental.Models.Movimentacao
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar";
 }
 
-<h1>Edit</h1>
-
-<h4>Movimentacao</h4>
+<h1>Editar Movimentação</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,8 +13,21 @@
             <input type="hidden" asp-for="IDMovimentacao" />
             <div class="form-group">
                 <label asp-for="Caminhao" class="control-label"></label>
-                <input asp-for="Caminhao" class="form-control" />
+                <select asp-for="Caminhao" class="form-select">
+                    <option value="">Selecione o caminhão</option>
+                    <option value="Truck">Truck</option>
+                    <option value="Caçamba">Caçamba</option>
+                </select>
                 <span asp-validation-for="Caminhao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tipo" class="control-label"></label>
+                <select asp-for="Tipo" class="form-select">
+                    <option value="">Selecione o tipo</option>
+                    <option value="Entrada">Entrada</option>
+                    <option value="Saída">Saída</option>
+                </select>
+                <span asp-validation-for="Tipo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Data" class="control-label"></label>
@@ -24,29 +35,42 @@
                 <span asp-validation-for="Data" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Local" class="control-label"></label>
+                <select asp-for="Local" class="form-select">
+                    <option value="">Selecione o local</option>
+                    <option value="Usina">Usina</option>
+                    <option value="Aterro">Aterro</option>
+                </select>
+                <span asp-validation-for="Local" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Material" class="control-label"></label>
-                <input asp-for="Material" class="form-control" />
+                <select asp-for="Material" class="form-select">
+                    <option value="">Selecione o material</option>
+                    <option value="Madeira">Madeira</option>
+                    <option value="Asfalto">Asfalto</option>
+                    <option value="Resíduos de Cimento">Resíduos de Cimento</option>
+                    <option value="Ladrilhos, telhas e materiais cerâmicos">Ladrilhos, telhas e materiais cerâmicos</option>
+                    <option value="Vidro">Vidro</option>
+                    <option value="Plástico">Plástico</option>
+                    <option value="Mistura de sucatas">Mistura de sucatas</option>
+                </select>
                 <span asp-validation-for="Material" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Quantidade" class="control-label"></label>
-                <input asp-for="Quantidade" class="form-control" />
+                <input asp-for="Quantidade" type="number" step="any" class="form-control" required />
                 <span asp-validation-for="Quantidade" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Tipo" class="control-label"></label>
-                <input asp-for="Tipo" class="form-control" />
-                <span asp-validation-for="Tipo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Salvar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar para lista</a>
 </div>
 
 @section Scripts {

@@ -11,6 +11,7 @@ namespace LedAmbiental.Models
         [Display(Name = "Caminhão")]
         public string Caminhao { get; set; }
 
+        [Display(Name = "Data e Hora")]
         public DateTime Data { get; set; } = DateTime.Now;
         public string Material { get; set; }
         public decimal Quantidade { get; set; }
