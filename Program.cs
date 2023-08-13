@@ -1,9 +1,12 @@
+using DotNetEnv;
 using LedAmbiental.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
+Env.Load();
+
 var builder = WebApplication.CreateBuilder(args);
-string connectionString = builder.Configuration.GetConnectionString("LedAmbientalConnectionString") ?? throw new InvalidOperationException("String de conexão 'LedAmbientalConnectionString' não encontrada");
+var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
 
 builder.Services.AddRazorPages();
