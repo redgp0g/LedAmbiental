@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+var connectionString = builder.Configuration.GetConnectionString("CONNECTION_STRING");
 
 
 builder.Services.AddRazorPages();
