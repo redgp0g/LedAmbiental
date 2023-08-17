@@ -1,17 +1,21 @@
-using DotNetEnv;
+using Azure.Identity;
 using LedAmbiental.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
-Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("CONNECTION_STRING");
-
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 builder.Services.AddLogging();
+
+
+var keyVaultUrl = new Uri(builder.Configuration.GetSection("KeyVaultURL").Value!);
+var azureCredential = new DefaultAzureCredential();
+builder.Configuration.AddAzureKeyVault(keyVaultUrl,azureCredential);
+
+var connectionString = builder.Configuration.GetSection("ConnectionStrings").Value;
 
 builder.Services.AddDbContext<Contexto>
 (options => options.UseSqlServer(connectionString));
