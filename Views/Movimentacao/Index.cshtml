@@ -9,6 +9,8 @@
 <p>
     <a asp-action="Create">Lançar Movimentação</a>
 </p>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -63,3 +65,59 @@
         }
     </tbody>
 </table>
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $.ajax({
+            url: "/Movimentacao/GetMateriais",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var material = [];
+                var quantidade = [];
+                var local = [];
+
+                for (var i in result) {
+                    material.push(result[i].material);
+                    quantidade.push(result[i].quantidade);
+                    local.push(result[i].local);
+                }
+                drawChart(material, quantidade,local);
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    });
+    google.charts.load('current', { 'packages': ['bar'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart(material,quantidade,local) {
+       
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Material');
+        data.addColumn('number', 'Aterro');
+        data.addColumn('string', 'Usina');
+
+        for (var i = 0; i < material.length; i++) {
+            data.addRow([material[i], quantidade[i],local[i]]);
+        }
+
+        var options = {
+            chart: {
+                title: 'Materiais nos Depósitos',
+            }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+    }
+
+</script>

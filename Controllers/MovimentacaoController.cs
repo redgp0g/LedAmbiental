@@ -153,5 +153,12 @@ namespace LedAmbiental.Controllers
         {
           return (_context.Movimentacao?.Any(e => e.IDMovimentacao == id)).GetValueOrDefault();
         }
+        //função para buscar os materiais, a quantidade e o local
+        [HttpGet]
+        public JsonResult GetMateriais()
+        {
+            var materiais = _context.Movimentacao.ToList();
+            return Json(materiais);
+        }
     }
 }
