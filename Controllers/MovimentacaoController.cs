@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LedAmbiental.Models;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace LedAmbiental.Controllers
 {
@@ -153,12 +154,65 @@ namespace LedAmbiental.Controllers
         {
           return (_context.Movimentacao?.Any(e => e.IDMovimentacao == id)).GetValueOrDefault();
         }
-        //função para buscar os materiais, a quantidade e o local
+        //função para buscar os materiais
         [HttpGet]
-        public JsonResult GetMateriais()
+        public string GetMateriais()
         {
-            var materiais = _context.Movimentacao.ToList();
-            return Json(materiais);
+            var entradasAterro = _context.Movimentacao
+                .Where(m => m.Local == "Aterro" && m.Tipo == "Entrada")
+                .GroupBy(m => new { m.Material })
+                .Select(group => new
+                {
+                    Material = group.Key.Material,
+                    QuantidadeTotalEntradaAterro = group.Sum(m => m.Quantidade)
+                })
+                .ToList();
+
+            var saidasAterro = _context.Movimentacao
+                .Where(m => m.Local == "Aterro" && m.Tipo == "Saída")
+                .GroupBy(m => new { m.Material })
+                .Select(group => new
+                {
+                    Material = group.Key.Material,
+                    QuantidadeTotalSaidaAterro = group.Sum(m => m.Quantidade)
+                })
+                .ToList();
+
+            var entradasUsina = _context.Movimentacao
+                .Where(m => m.Local == "Usina" && m.Tipo == "Entrada")
+                .GroupBy(m => new { m.Material })
+                .Select(group => new
+                {
+                    Material = group.Key.Material,
+                    QuantidadeTotalEntradaUsina = group.Sum(m => m.Quantidade)
+                })
+                .ToList();
+
+            var saidasUsina = _context.Movimentacao
+                .Where(m => m.Local == "Usina" && m.Tipo == "Saída")
+                .GroupBy(m => new { m.Material })
+                .Select(group => new
+                {
+                    Material = group.Key.Material,
+                    QuantidadeTotalSaidaUsina = group.Sum(m => m.Quantidade)
+                })
+                .ToList();
+
+            var materiais = entradasAterro.Select(d => d.Material).Union(saidasAterro.Select(d => d.Material))
+                .Union(entradasUsina.Select(d => d.Material)).Union(saidasUsina.Select(d => d.Material));
+
+            var resultado = materiais.Select(material => new
+            {
+                Material = material,
+                QuantidadeTotalAterro = (entradasAterro.FirstOrDefault(d => d.Material == material)?.QuantidadeTotalEntradaAterro ?? 0) -
+                                       (saidasAterro.FirstOrDefault(d => d.Material == material)?.QuantidadeTotalSaidaAterro ?? 0),
+                QuantidadeTotalUsina = (entradasUsina.FirstOrDefault(d => d.Material == material)?.QuantidadeTotalEntradaUsina ?? 0) -
+                                      (saidasUsina.FirstOrDefault(d => d.Material == material)?.QuantidadeTotalSaidaUsina ?? 0)
+            });
+
+            string json = JsonConvert.SerializeObject(resultado, Formatting.Indented);
+            return json;
         }
+
     }
 }

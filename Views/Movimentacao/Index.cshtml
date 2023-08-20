@@ -3,6 +3,11 @@
 @{
     ViewData["Title"] = "Tabela";
 }
+<!-- q:como eu coloco uma borda preta com bootstrap-->
+<div class="justify-content-center d-flex border border-black">
+    <div id="columnchart_material" style="width: 1200px; height: 500px;"></div>
+</div>
+
 
 <h1>Tabela de Movimentações</h1>
 
@@ -49,7 +54,7 @@
                     @Html.DisplayFor(modelItem => item.Material)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Quantidade)
+                    @Html.DisplayFor(modelItem => item.Quantidade) m²
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Local)
@@ -68,7 +73,6 @@
 
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-<div id="columnchart_material" style="width: 800px; height: 500px;"></div>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -79,35 +83,59 @@
             dataType: "json",
             success: function (result) {
                 var material = [];
-                var quantidade = [];
-                var local = [];
+                var quantidadeaterro = [];
+                var quantidadeusina = [];
 
                 for (var i in result) {
-                    material.push(result[i].material);
-                    quantidade.push(result[i].quantidade);
-                    local.push(result[i].local);
+                    material.push(result[i].Material);
+                    quantidadeaterro.push(result[i].QuantidadeTotalAterro);
+                    quantidadeusina.push(result[i].QuantidadeTotalUsina);
                 }
-                drawChart(material, quantidade,local);
+                drawChart(material, quantidadeaterro, quantidadeusina);
 
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);
             }
         });
+       //inicializar datatables com botões, ordenação e paginação
+        $('.table').DataTable({
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "dom": 'Bfrtip',
+            "buttons": [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+            }
+
+        });
+
     });
     google.charts.load('current', { 'packages': ['bar'] });
     google.charts.setOnLoadCallback(drawChart);
 
-    function drawChart(material,quantidade,local) {
-       
+    function drawChart(material, quantidadeaterro, quantidadeusina) {
+
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Material');
         data.addColumn('number', 'Aterro');
-        data.addColumn('string', 'Usina');
+        data.addColumn('number', 'Usina');
 
         for (var i = 0; i < material.length; i++) {
-            data.addRow([material[i], quantidade[i],local[i]]);
+            data.addRow([material[i], quantidadeaterro[i], quantidadeusina[i]]);
         }
+
+        var formatter = new google.visualization.NumberFormat({
+            suffix: ' m²'
+        });
+        formatter.format(data, 1);
+        formatter.format(data, 2);
+
+
 
         var options = {
             chart: {
@@ -117,7 +145,8 @@
 
         var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
 
+
         chart.draw(data, google.charts.Bar.convertOptions(options));
     }
-
 </script>
+
