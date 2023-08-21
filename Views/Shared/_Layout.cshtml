@@ -15,13 +15,14 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Led Ambiental</a>
+                <a class="navbar-brand" asp-controller="Movimentacao" asp-action="Index">Led Ambiental</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-sm-inline-flex">
+
+                    <ul class="navbar-nav flex-grow-1 justify-content-evenly">
                         @await Html.PartialAsync("_LoginPartial")
                     </ul>
                 </div>
@@ -30,14 +31,13 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - LedAmbiental - Criado por Guilherme Gordiano
+        <div class="container text-center">
+            &copy; 2023 - LedAmbiental - Criado por <a href="https://portfolio-gordiano.netlify.app/">Guilherme Gordiano</a>
         </div>
     </footer>
 

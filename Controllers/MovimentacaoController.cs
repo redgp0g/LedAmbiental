@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using LedAmbiental.Models;
 using System.Globalization;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LedAmbiental.Controllers
 {
+    [Authorize]
     public class MovimentacaoController : Controller
     {
         private readonly Contexto _context;
@@ -68,6 +70,7 @@ namespace LedAmbiental.Controllers
                 }
         }
 
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Movimentacao == null)
@@ -85,6 +88,7 @@ namespace LedAmbiental.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Edit(int IDMovimentacao,Movimentacao movimentacao)
         {
             if (IDMovimentacao != movimentacao.IDMovimentacao)
@@ -101,20 +105,14 @@ namespace LedAmbiental.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MovimentacaoExists(movimentacao.IDMovimentacao))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(movimentacao);
         }
 
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Movimentacao == null)
@@ -134,6 +132,7 @@ namespace LedAmbiental.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> DeleteConfirmed(int IDMovimentacao)
         {
             if (_context.Movimentacao == null)
@@ -150,11 +149,6 @@ namespace LedAmbiental.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MovimentacaoExists(int id)
-        {
-          return (_context.Movimentacao?.Any(e => e.IDMovimentacao == id)).GetValueOrDefault();
-        }
-        //função para buscar os materiais
         [HttpGet]
         public string GetMateriais()
         {

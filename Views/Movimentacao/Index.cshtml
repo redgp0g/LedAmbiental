@@ -1,9 +1,9 @@
 ﻿@model IEnumerable<LedAmbiental.Models.Movimentacao>
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 
 @{
     ViewData["Title"] = "Tabela";
 }
-<!-- q:como eu coloco uma borda preta com bootstrap-->
 <div class="justify-content-center d-flex border border-black">
     <div id="columnchart_material" style="width: 1200px; height: 500px;"></div>
 </div>
@@ -62,10 +62,18 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Tipo)
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.IDMovimentacao">Editar</a> |
-                    <a asp-action="Delete" asp-route-id="@item.IDMovimentacao">Deletar</a>
-                </td>
+                @if (User.IsInRole("Administrador"))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IDMovimentacao">Editar</a> |
+                        <a asp-action="Delete" asp-route-id="@item.IDMovimentacao">Deletar</a>
+                    </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+
             </tr>
         }
     </tbody>
@@ -98,7 +106,6 @@
                 alert(errormessage.responseText);
             }
         });
-       //inicializar datatables com botões, ordenação e paginação
         $('.table').DataTable({
             "paging": true,
             "ordering": true,
@@ -107,10 +114,14 @@
             "buttons": [
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ],
-            
+
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
-            }
+            },
+            "scrollY": "60vh",
+            "scrollCollapse": true,
+            "autoWidth": true,
+            "responsive": true
 
         });
 

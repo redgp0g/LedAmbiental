@@ -10,5 +10,6 @@ namespace LedAmbiental.Models
         {
         }
         public DbSet<Movimentacao> Movimentacao { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
     }
 }
